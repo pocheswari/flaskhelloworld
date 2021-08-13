@@ -1,0 +1,16 @@
+pipeline {
+	agent any
+	stages {
+		stage('Build') {
+		    steps {
+			  sh 'python -m py_compile main.py'
+		    }
+		}
+		stage('Deploy') {
+		    steps {
+			sh 'suod cp -f /var/lib/jenkins/workspace/Flaskapp/main.py /var/www/flaskapp/flaskapp/'
+			sh 'sudo systemctl restart apache2'
+		    }
+		}
+	}
+}
